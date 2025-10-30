@@ -50,7 +50,9 @@ runs:
         fi
     - name: Run amplify build status check
       shell: bash
-      run: ${{ github.action_path }}/entrypoint.sh
+      run: |
+        chmod +x "${{ github.action_path }}/entrypoint.sh"
+        "${{ github.action_path }}/entrypoint.sh"
       env:
         APP_ID: ${{ inputs.app-id }}
         BRANCH_NAME: ${{ inputs.branch-name }}
