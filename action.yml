@@ -34,15 +34,30 @@ outputs:
   graphql_endpoint:
     description: 'The GraphQL endpoint.'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.app-id }}
-    - ${{ inputs.branch-name }}
-    - ${{ inputs.commit-id }}
-    - ${{ inputs.wait }}
-    - ${{ inputs.timeout }}
-    - ${{ inputs.no-fail }}
+  using: 'composite'
+  steps:
+    - name: Install jq
+      shell: bash
+      run: |
+        if ! command -v jq &> /dev/null; then
+          if [[ "$RUNNER_OS" == "Linux" ]]; then
+            sudo apt-get update && sudo apt-get install -y jq
+          elif [[ "$RUNNER_OS" == "macOS" ]]; then
+            brew install jq
+          elif [[ "$RUNNER_OS" == "Windows" ]]; then
+            choco install jq
+          fi
+        fi
+    - name: Run amplify build status check
+      shell: bash
+      run: ${{ github.action_path }}/entrypoint.sh
+      env:
+        APP_ID: ${{ inputs.app-id }}
+        BRANCH_NAME: ${{ inputs.branch-name }}
+        COMMIT_ID: ${{ inputs.commit-id }}
+        WAIT: ${{ inputs.wait }}
+        TIMEOUT: ${{ inputs.timeout }}
+        NO_FAIL: ${{ inputs.no-fail }}
 branding:
   icon: 'check-circle'
   color: 'orange'

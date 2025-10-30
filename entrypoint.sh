@@ -2,12 +2,13 @@
 
 set -e
 
-APP_ID=$1
-BRANCH_NAME=$2
-COMMIT_ID=$3
-WAIT=$4
-TIMEOUT=$5
-NO_FAIL=$6
+# Get inputs from environment variables instead of positional arguments
+APP_ID="${APP_ID:-$1}"
+BRANCH_NAME="${BRANCH_NAME:-$2}"
+COMMIT_ID="${COMMIT_ID:-$3}"
+WAIT="${WAIT:-$4}"
+TIMEOUT="${TIMEOUT:-$5}"
+NO_FAIL="${NO_FAIL:-$6}"
 export AWS_DEFAULT_REGION="$AWS_REGION"
 
 ENV_NAME=
