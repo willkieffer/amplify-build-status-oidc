@@ -12,16 +12,6 @@ export AWS_DEFAULT_REGION="$AWS_REGION"
 
 ENV_NAME=
 
-if [[ -z "$AWS_ACCESS_KEY_ID" ]]; then
-  echo "You must provide the AWS_ACCESS_KEY_ID environment variable."
-  exit 1
-fi
-
-if [[ -z "$AWS_SECRET_ACCESS_KEY" ]]; then
-  echo "You must provide the AWS_SECRET_ACCESS_KEY environment variable."
-  exit 1
-fi
-
 if [[ -z "$AWS_DEFAULT_REGION" ]] ; then
   echo "You must provide the AWS_REGION environment variable."
   exit 1
